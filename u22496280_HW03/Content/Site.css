@@ -1,0 +1,42 @@
+﻿/* Set padding to keep content from hitting the edges */
+.body-content {
+    margin-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* Style the navigation bar */
+.navbar {
+    background-color: #3498db; /* Set the background color */
+}
+
+.navbar-brand {
+    color: #fff; /* Change the brand (logo or title) color */
+}
+
+.navbar-nav .nav-link {
+    color: #fff; /* Change the link text color */
+}
+
+    .navbar-nav .nav-link:hover {
+        background-color: #2980b9; /* Change the background color on hover */
+    }
+
+/* Center the brand and adjust the spacing */
+.navbar-brand {
+    margin-right: auto;
+}

@@ -1,0 +1,74 @@
+﻿@*@model List<u22496280_HW03.Models.ReportModel>
+@{
+    ViewBag.Title = "Manage Reports";
+}
+
+<h2>Manage Reports</h2>
+
+ Add a form to create a new report 
+<form method="post" action="@Url.Action("CreateReport", "Report")">
+    @Html.AntiForgeryToken()
+
+     Add input fields for filename, file type, and description 
+    <div class="form-group">
+        @Html.LabelFor(model => model.FileName)
+        @Html.TextBoxFor(model => model.FileName, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.FileType)
+        @Html.DropDownListFor(model => model.FileType, new List<SelectListItem>
+        {
+            new SelectListItem { Text = ".pdf", Value = ".pdf" },
+            new SelectListItem { Text = ".png", Value = ".png" },
+            // Add more file types as needed
+        }, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Description)
+        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", id = "description-editor" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Report</button>
+</form>
+
+@if (Model.Count > 0)
+{
+    <h3>Document Archive</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>File Name</th>
+                <th>File Type</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var report in Model)
+            {
+                <tr>
+                    <td>@report.FileName</td>
+                    <td>@report.FileType</td>
+                    <td>@report.Description</td>
+                    <td>
+                        <a href="@Url.Action("DownloadReport", "Report", new { fileName = report.FileName })">Download</a> |
+                        <a href="@Url.Action("DeleteReport", "Report", new { fileName = report.FileName })">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No reports found in the archive.</p>
+}
+
+ Include TinyMCE script for description editor 
+<script src="https://cdn.tiny.cloud/1/your-tinymce-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea#description-editor',
+        // Add TinyMCE options as needed
+    });
+</script>*@

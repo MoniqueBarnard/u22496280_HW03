@@ -1,0 +1,121 @@
+﻿@model u22496280_HW03.Models.MergedModel
+
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<main class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Students</h2>
+            <p>
+                <button class="btn btn-primary create-link" data-url="@Url.Action("Create", "Students")">Create New Student</button>
+            </p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>Birthdate</th>
+                        <th>Gender</th>
+                        <th>Point</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var student in Model.Student)
+                    {
+                        <tr>
+                            <td>@student.name</td>
+                            <td>@student.surname</td>
+                            <td>@student.birthdate</td>
+                            <td>@student.gender</td>
+                            <td>@student.point</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="pagination-container">
+                @Html.PagedListPager(Model.Student, page => Url.Action("Index", new { studentPage = page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <h2>Books</h2>
+            <p>
+                <button class="btn btn-primary create-link" data-url="@Url.Action("Create", "Books")">Create New Book</button>
+            </p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Page Count</th>
+                        <th>Point</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var i = 0; i < Model.Book.Count; i++)
+                    {
+                        <tr>
+                            <td>@Model.Book[i].name</td>
+                            <td>@Model.Book[i].pagecount</td>
+                            <td>@Model.Book[i].point</td>
+                            <td>@Model.Bookstatus[i]</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="pagination-container">
+                @Html.PagedListPager(Model.Book, page => Url.Action("Index", new { bookPage = page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+            </div>
+        </div>
+    </div>
+</main>
+
+<div id="myModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sample Async CRUD</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.7.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(function () {
+        // Function to handle Create links click event in the Combined View and Details modal
+        $(".create-link").click(function (e) {
+            e.preventDefault();
+            var url = $(this).data("url");
+
+            $.get(url, function (data) {
+                $("#modal-content").empty();
+                $("#modal-content").html(data);
+                $("#myModal").modal("show");
+            });
+        });
+
+        // Function to handle form submission within the modal
+        $("#modal-content").on("submit", "form", function (e) {
+            e.preventDefault();
+            var form = $(this);
+            var url = form.attr("action");
+
+            var formData = form.serialize();
+
+            $.post(url, formData, function (data) {
+                $("#myModal").modal("hide");
+                location.reload();
+            });
+        });
+    });
+</script>

@@ -1,0 +1,111 @@
+﻿@model u22496280_HW03.Models.MaintainModel
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Maintain Page";
+}
+
+<main class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Authors</h2>
+            <p>
+                <a class="btn btn-primary" href="@Url.Action("Create", "Authors")">Create New Author</a>
+            </p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var author in Model.Authors)
+                    {
+                        <tr>
+                            <td>@author.name</td>
+                            <td>@author.surname</td>
+                            <td>
+                                <a href="@Url.Action("Edit", "Authors", new { id = author.authorId })">Edit</a>
+                                <a href="@Url.Action("Delete", "Authors", new { id = author.authorId })">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="pagination-container">
+                @Html.PagedListPager(Model.Authors, page => Url.Action("Index", new { authorPage = page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <h2>Types</h2>
+            <p>
+                <a class="btn btn-primary" href="@Url.Action("Create", "Types")">Create New Type</a>
+            </p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var type in Model.Types)
+                    {
+                        <tr>
+                            <td>@type.name</td>
+                            <td>
+                                <a href="@Url.Action("Edit", "Types", new { id = type.typeId })">Edit</a>
+                                <a href="@Url.Action("Delete", "Types", new { id = type.typeId })">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="pagination-container">
+                @Html.PagedListPager(Model.Types, page => Url.Action("Index", new { typePage = page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Borrows</h2>
+            <p>
+                <a class="btn btn-primary" href="@Url.Action("Create", "Borrows")">Create New Borrow</a>
+            </p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Book</th>
+                        <th>Taken Date</th>
+                        <th>Brought Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var borrow in Model.Borrows)
+                    {
+                        <tr>
+                            <td>@borrow.studentId</td>
+                            <td>@borrow.bookId</td>
+                            <td>@borrow.takenDate</td>
+                            <td>@borrow.broughtDate</td>
+                            <td>
+                                <a href="@Url.Action("Edit", "Borrows", new { id = borrow.borrowId })">Edit</a>
+                                <a href="@Url.Action("Delete", "Borrows", new { id = borrow.borrowId })">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="pagination-container">
+                @Html.PagedListPager(Model.Borrows, page => Url.Action("Index", new { borrowPage = page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+            </div>
+        </div>
+    </div>
+</main>
